@@ -1,0 +1,25 @@
+LIFE1
+! echo: read chars from stdin and write them to stdout
+
+! size
+8 29
+
+! input
+3 0  2 9  2 14  2 19  2 24  5 9  5 14  5 19  5 24
+
+! output
+3 3  2 9  2 14  2 19  2 24  5 9  5 14  5 19  5 24
+
+! halt
+0 0
+
+....OO....O....O....O....O...
+...O..O..O.O..O.O..O.O..O.O..
+.O..O.O...O....O....O....O...
+.O...O.......................
+.O...........................
+....O.....O....O....O....O...
+..OO.....O.O..O.O..O.O..O.O..
+..........O....O....O....O...
+
+! you can make more small programs when you allow unstable behaviors
