@@ -166,7 +166,7 @@ char read_value_from_cells(state_t const & state, array<point_t, BITS> const & p
 void write_value_to_cells(state_t & state, array<point_t, BITS> const & p, char c) {
     // NOTE: the output cells should be distinct
     REP (i, BITS) {
-        state.field[(p[i].y - state.shift.y) * state.size.x + (p[i].x - state.shift.x)] = (bool)(c & (1 << i));
+        state.field[(p[i].y + state.shift.y) * state.size.x + (p[i].x + state.shift.x)] = (bool)(c & (1 << i));
     }
 }
 
