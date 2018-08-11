@@ -19,6 +19,7 @@ struct config_t {
     array<point_t, BITS> input, output;
 };
 
+// NOTE: infinite size and finite living cells
 struct state_t {
     point_t size, shift;
     vector<bool> field;
@@ -47,9 +48,10 @@ int read_point(FILE *fh, point_t & p) {
 }
 
 void read_program(FILE *fh, config_t & config, state_t & state) {
+    // read configs
     // TODO: err msg
     skip_comment(fh);
-    int version;
+    int version;  // NOTE: add this value since I'm not sure the format is the best
     if (fscanf(fh, "LIFE%d", &version) != 1) assert (false);
     skip_comment(fh);
     if (version != 1) assert (false);
@@ -66,6 +68,7 @@ void read_program(FILE *fh, config_t & config, state_t & state) {
     state.shift.y = 1;
     state.shift.x = 1;
 
+    // read cells
     // NOTE: this follows http://www.conwaylife.com/wiki/Plaintext
     state.field.resize((h + 2) * (w + 2));
     REP (y, h) {
@@ -87,8 +90,7 @@ state_t extend_field(state_t const & prv) {
     nxt.shift.y = 2 + prv.size.y + prv.shift.y;
     nxt.shift.x = 2 + prv.size.x + prv.shift.x;
     nxt.field.resize(nxt.size.y * nxt.size.x);
-    REP (y, prv.size.y) {
-        REP (x, prv.size.x) {
+    REP (y, prv.size.y) { REP (x, prv.size.x) {
             int ny = 2 + prv.size.y + y;
             int nx = 2 + prv.size.x + x;
             nxt.field[ny * nxt.size.x + nx] = prv.field[y * prv.size.x + x];
@@ -162,6 +164,7 @@ char read_value_from_cells(state_t const & state, array<point_t, BITS> const & p
 }
 
 void write_value_to_cells(state_t & state, array<point_t, BITS> const & p, char c) {
+    // NOTE: the output cells should be distinct
     REP (i, BITS) {
         state.field[(p[i].y - state.shift.y) * state.size.x + (p[i].x - state.shift.x)] = (bool)(c & (1 << i));
     }
